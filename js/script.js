@@ -99,7 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Adding event to promo
     promoList.addEventListener('click', (event) => {
-        if (event.target && event.target.classList.contains('delete')) {
+        // if (event.target && event.target.classList.contains('delete')) {
+        if (event.target && event.target.matches('div.delete')) {
             index = parseInt(event.target.id.substring(9, 11), 10);
             movieDB.movies.splice(index, 1);
 
