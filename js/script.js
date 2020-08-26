@@ -35,34 +35,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 promoList.innerHTML +=
                     `<li class=promo__interactive-item style="text-transform: none;">
                         ${index + 1}. ${item}
-                        <div class="delete"></div>
+                        <div class="delete" id="delButton${index}"></div>
                     </li>`;
             });
-            //assigning events to trashcans
-            trashCans = document.querySelectorAll('.delete');
-            trashCans.forEach((item, index) => {
-                item.addEventListener('click', (event) => {
-                    movieDB.movies.splice(index, 1);
-                    item.parentElement.remove();
-
-                    movieDB.reloadDB();
-                });
-            });        
         }
     };
     
     //Adding new movie to list function
     const confirmAdding = function(event) {
         event.preventDefault();
-    
+        
         newFilm = addInput.value;
-    
+        
         if (newFilm) {
             //formating data
             if (newFilm.length > 21){newFilm = `${newFilm.slice(0,21)}...`;}
             
             if (addCheck.checked){alert('Adding your favourite movie');}
-    
+            
             movieDB.movies.push(newFilm);
             movieDB.reloadDB();
             
@@ -85,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
           addInput = addForm.querySelector('.adding__input'),
           addCheck = addForm.querySelector('[type="checkbox"]');
     
-    let newFilm,
+    let newFilm, index,
         trashCans = document.querySelectorAll('.delete');
     
     //Initialization of input data    
@@ -107,4 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
     //Adding confirm event to form
     addForm.addEventListener('submit', confirmAdding);
 
+    //Adding event to promo
+    promoList.addEventListener('click', (event) => {
+        if (event.target && event.target.classList.contains('delete')) {
+            index = parseInt(event.target.id.substring(9, 11), 10);
+            movieDB.movies.splice(index, 1);
+
+            event.target.parentElement.remove();
+    
+            movieDB.reloadDB();
+        }
+    });
+    
 });
